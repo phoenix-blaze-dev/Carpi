@@ -12,12 +12,7 @@
 			
 			function update() {
 				console.log("Attempting to get WIFI Singal Strength vi iwconfig");
-		 	    $.post("/getWifiSignal", { action:"update" },
-		 	    	function(data){ 
-						console.log(data); 
-							knobfunction(data);				
-						window.setTimeout(update, 2000);
-					});
+		 	
 			}
 			
 			function knobfunction(value1){
@@ -102,24 +97,10 @@
     </script>
   </head>
   <body>
-	  <div class="wrapper">
-        <img id="cam" src="http://192.168.1.7:8080/?action=stream"/>
-		<div class="dials">
-			<input type="text" class="dial" data-height="300" data-width="200" data-fgColor="#121f1f" data-angleOffset=-125 data-angleArc=250>
-		</div>
-		<div id="forward-button"></div>
-		<div id="backward-button"></div>
-		<div id="forward-left"></div>
-		<div id="forward-right"></div>
-		<div id="stop"></div>
-	</div>
-	<script>
-		$(".dial").knob({
-					'thickness': 0.5,
-					'min' : 0,
-					'max' : 70,
-	                 'change' : function (v) { console.log(v); }
-	    });
-	</script>
+    <div class="wrapper">
+  	<script src='http://yoannmoinet.github.io/nipplejs/javascripts/nipplejs.js'></script>
+    	<script src="javascripts/car.js"></script>
+    	<script src="javascripts/index.js"></script>
+    </div>
   </body>
 </html>

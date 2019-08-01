@@ -2,6 +2,11 @@ var express = require('express');
 var router = express.Router();
 var child = require('child_process');
 var exec = require('child_process').exec;
+/* GPIO PIN definitions */
+var forward = '25';
+var backward = '29';
+var left = '23';
+var right = '28';
 
 /* GET home page. */
 router.get('/', function(req, res) {
@@ -12,7 +17,7 @@ router.get('/', function(req, res) {
 
 router.post('/forward', function(req, res){
 	    var name = req.body.name;
-		exec('sudo python /home/pi/projects/servo-control/control-car.py forward', function (error, stdout, stderr) {
+		exec('gpio write '+forward+' 1', function (error, stdout, stderr) {
 			result = stdout.toString().split("\n"); 
 			console.log(result);
 	    	res.send(result);
@@ -23,51 +28,29 @@ router.post('/forward', function(req, res){
 
 router.post('/backward', function(req, res){
             var name = req.body.name;
-                exec('sudo python /home/pi/projects/servo-control/control-car.py backward', function (error, stdout, stderr) {
+                exec('gpio write '+backward+' 1', function (error, stdout, stderr) {
                         result = stdout.toString().split("\n");
                         console.log(result);
                 res.send(result);
         });
 });
 
-// Move Car Forward Left    ----------------------------------------
+// Move Car Right    ----------------------------------------
 
-router.post('/forward-left', function(req, res){
+router.post('/right', function(req, res){
             var name = req.body.name;
-                exec('sudo python /home/pi/projects/servo-control/control-car.py forwardLeft', function (error, stdout, stderr) {
+                exec('gpio write '+right+' 1', function (error, stdout, stderr) {
                         result = stdout.toString().split("\n");
                         console.log(result);
                 res.send(result);
         });
 });
 
-// Move Car Forward Right    ----------------------------------------
+// Move Car Left    ----------------------------------------
 
-router.post('/forward-right', function(req, res){
+router.post('/left', function(req, res){
             var name = req.body.name;
-                exec('sudo python /home/pi/projects/servo-control/control-car.py forwardRight', function (error, stdout, stderr) {
-                        result = stdout.toString().split("\n");
-                        console.log(result);
-                res.send(result);
-        });
-});
-
-// Move Car Backward Left    ----------------------------------------
-
-router.post('/backward-left', function(req, res){
-            var name = req.body.name;
-                exec('sudo python /home/pi/projects/servo-control/control-car.py backwardLeft', function (error, stdout, stderr) {
-                        result = stdout.toString().split("\n");
-                        console.log(result);
-                res.send(result);
-        });
-});
-
-// Move Car Backward Right    ----------------------------------------
-
-router.post('/backward-right', function(req, res){
-            var name = req.body.name;
-                exec('sudo python /home/pi/projects/servo-control/control-car.py backwardRight', function (error, stdout, stderr) {
+                exec('gpio write '+left+' 1', function (error, stdout, stderr) {
                         result = stdout.toString().split("\n");
                         console.log(result);
                 res.send(result);
@@ -78,19 +61,8 @@ router.post('/backward-right', function(req, res){
 
 router.post('/stop', function(req, res){
             var name = req.body.name;
-                exec('sudo python /home/pi/projects/servo-control/control-car.py stop', function (error, stdout, stderr) {
+                exec('gpio write '+forward+' 0 && gpio write '+backward+' 0 && gpio write '+left+' 0 && gpio write '+right+' 0', function (error, stdout, stderr) {
                         result = stdout.toString().split("\n");
-                        console.log(result);
-                res.send(result);
-        });
-});
-
-// Get Wifi Signal Strength   ----------------------------------------
-
-router.post('/getWifiSignal', function(req, res){
-            var name = req.body.name;
-                exec("iwconfig wlan0 | grep -i --color quality | awk -F '=' '{print$2}' | awk -F '/' '{print $1}'", function (error, stdout, stderr) {
-                        result = stdout.toString();
                         console.log(result);
                 res.send(result);
         });
