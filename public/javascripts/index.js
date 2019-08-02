@@ -6,7 +6,7 @@ var sampleJoystick = {
       left: '50%',
       top: '50%'
     },
-    size: radius*2,
+    size: radius*5,
     color: 'black'
 };
 
